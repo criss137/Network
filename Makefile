@@ -5,6 +5,9 @@ training:
 	
 main:
 	gcc -std=c99 -O2 -MMD main.c neuralNet.c layer.c neuron.c networkSave.c -o main -lm
+	
+netclean:
+	rm -f network network__
  
 clean:
 	rm -f *.o *.d *~ main training
