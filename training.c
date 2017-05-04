@@ -6,17 +6,16 @@
 int main(void){
     FILE *f = fopen("network", "r");
     if (!f){
-        int layersize[4];
+        int layersize[3];
         layersize[0] = 8;
         layersize[1] = 24;
-        layersize[2] = 18;
-        layersize[3] = 2;
-        struct neuralNet *R = initNeuralNet(layersize, 4);
+        layersize[2] = 2;
+        struct neuralNet *R = initNeuralNet(layersize, 3);
         saveNetwork(R, "network");
     }
     int errorhandler;
     
-    int nb = 1;                 /* number of learning matches */
+    int nb = 2691;                 /* number of learning matches */
     double input[nb][8];        /* matches */
     double target[nb][2];       /* results */
     FILE *data = fopen("data", "r");
@@ -57,11 +56,13 @@ int main(void){
 			for (int j = 0; j < 2; ++j)
 			{
                 tempError = R->lastLayer[j].delta;
+                if (tempError != tempError){return 1;}
                 error = tempError > 0? error + tempError:error-tempError;
 			}
 		}
 		delay++;
         if (delay % 100 == 0){
+            printf("   %d   ", delay);
             if (delay%200 == 0){
                 saveNetwork(R, "network_");
             }
