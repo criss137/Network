@@ -61,10 +61,15 @@ int main(void){
 			}
 		}
 		delay++;
-        if (delay == 1){
-            saveNetwork(R, "network__");
-            delay = 0;
+        if (delay % 100 == 0){
+            if (delay%200 == 0){
+                saveNetwork(R, "network_");
+            }
+            else{
+                saveNetwork(R, "network");
+            }
             printf("ERROR: %Lf\n", error);
+            delay = delay >= 10000? 0 : delay;
         }
 		
 	}
