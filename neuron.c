@@ -1,5 +1,6 @@
 # include <stdlib.h>
 # include <math.h>
+# include <stdio.h>
 
 # include "neuron.h"
 
@@ -10,7 +11,7 @@ struct neuron *initNeuron(int syn)
 	neur->synapses = malloc(syn * sizeof(double));
 	for (int i = 0; i < syn; ++i)
 	{
-		neur->synapses[i] = (((double)rand() / (double)RAND_MAX) - 0.5);
+		neur->synapses[i] = (4*((double)rand() / (double)RAND_MAX) - 2);
 	}
 	neur->sum = 0;
 	neur->out = 0;

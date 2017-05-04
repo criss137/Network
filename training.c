@@ -16,7 +16,7 @@ int main(void){
     }
     int errorhandler;
     
-    int nb = 3;                 /* number of learning matches */
+    int nb = 1;                 /* number of learning matches */
     double input[nb][8];        /* matches */
     double target[nb][2];       /* results */
     FILE *data = fopen("data", "r");
@@ -32,7 +32,6 @@ int main(void){
         }
     }
     
-    
     // TEST ZONE //
     /*
     for (int i = 0; i < nb; i++){
@@ -47,7 +46,7 @@ int main(void){
     */
     double tempError;
     struct neuralNet *R = loadNetwork("network");
-    double error = 100;
+    long double error = 1;
     int delay = 0;
 	while ((error > 0.01) || (error < (-0.01)))
 	{
@@ -58,20 +57,16 @@ int main(void){
 			for (int j = 0; j < 2; ++j)
 			{
                 tempError = R->lastLayer[j].delta;
-                if (tempError < 0){
-                    error -= tempError;
-                }
-                else{
-                    error += R->lastLayer[j].delta;
-                }
+                error = tempError > 0? error + tempError:error-tempError;
 			}
 		}
 		delay++;
-        if (delay == 100){
+        if (delay == 1){
             saveNetwork(R, "network__");
             delay = 0;
+            printf("ERROR: %Lf\n", error);
         }
-		printf("ERROR: %lf\n", error);
+		
 	}
 	saveNetwork(R, "network");
 }
